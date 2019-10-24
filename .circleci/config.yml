@@ -37,4 +37,4 @@ workflows:
             tags:
               only: /^3.*/
             branches:
-              only: master
+              ignore: /.*/ 
