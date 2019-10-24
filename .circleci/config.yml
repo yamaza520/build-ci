@@ -1,15 +1,8 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
       - image: yamaza520s/circleci-awscli
-    branches:
-      ignore:
-        - master
     steps:
       - checkout
       - setup_remote_docker
@@ -20,7 +13,7 @@ jobs:
             sh docker-registry-ecr.sh
 workflows:
   version: 2
-  plan:
+  dev:
     jobs:
       - build:
           filters:
