@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  dev-build:
     docker:
       - image: yamaza520s/circleci-awscli
     steps:
@@ -10,12 +10,31 @@ jobs:
           name: run register
           no_output_timeout: 1.5h
           command: |
-            sh docker-registry-ecr.sh
+            sh build-dev.sh
+  prd-build:
+    docker:
+      - image: yamaza520s/circleci-awscli
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: run register
+          no_output_timeout: 1.5h
+          command: |
+            sh build-prd.sh
 workflows:
   version: 2
   dev:
     jobs:
-      - build:
+      - dev-build:
+          filters:
+            branches:
+              only: develop
+  prd:
+    jobs:
+      - prd-build:
           filters:
             branches:
               only: master
+            tags:
+              only: /^3.*/
